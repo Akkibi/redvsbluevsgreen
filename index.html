@@ -27,6 +27,10 @@
       body {
         clip-path: "polygon(50% 0, 100% 50%, 50% 100%, 0 50%)";
       }
+      .shadow-interior {
+        box-shadow: inset 0 2px 1px 2px #00000055;
+        border: 1px solid black;
+      }
       .btn {
         border: 1px solid black;
         box-shadow: inset 0 0 0px #000000, inset 0 5px 1px #ffffffaa,
@@ -49,7 +53,31 @@
         background-color: #aaaaaa;
       }
       .inset-shadow {
+        overflow: hidden;
+        position: relative;
         box-shadow: 0 0 1px 5px inset #000, inset 0 2px 1px 4px #ffffff55;
+      }
+      .inset-shadow::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        /* background: linear-gradient(
+          0deg,
+          #222222ff,
+          #0000aa00,
+          #0000aa00,
+          #222222ff
+        ); */
+        /* background-size: cover; */
+        background-size: 30vh;
+        background-image: url("/image.png");
+        background-position: center;
+        z-index: 1;
+        opacity: 0.2;
+        mix-blend-mode: hard-light;
       }
       .stripes {
         background: repeating-linear-gradient(
@@ -80,8 +108,13 @@
         box-shadow: 0 10px 20px #000000;
       }
       canvas {
-        background-color: #222222;
         outline: 1px solid white;
+        user-select: none;
+        pointer-events: none;
+      }
+      .font-secondary {
+        font-family: monospace;
+        font-weight: 900;
       }
     </style>
   </head>
@@ -103,7 +136,7 @@
         <div
           class="absolute left-2/3 bottom-full h-screen w-1 -translate-x-1/2 stripes"
         ></div>
-        <div class="title p-1">
+        <div class="font-secondary p-1">
           <h1 class="text-3xl bg-black text-white rounded-lg p-4 inset-shadow">
             YOU WON !!
           </h1>
@@ -128,7 +161,7 @@
         <div
           class="absolute left-2/3 bottom-full h-screen w-1 -translate-x-1/2 stripes"
         ></div>
-        <div class="title p-1">
+        <div class="font-secondary p-1">
           <h1 class="text-3xl bg-black text-white rounded-lg p-4 inset-shadow">
             YOU LOSE !!
           </h1>
@@ -153,13 +186,60 @@
         <div
           class="absolute left-2/3 bottom-full h-screen w-1 -translate-x-1/2 stripes"
         ></div>
-        <div class="title p-1">
+        <div class="font-secondary p-1">
           <h1
-            class="text-3xl bg-black text-white rounded-lg p-4 font-thin inset-shadow"
+            class="text-3xl bg-black text-white rounded-lg p-4 font-900 inset-shadow"
           >
             Choose your color
           </h1>
         </div>
+        <p class="inline-flex justify-center items-center gap-2">
+          <span
+            class="h-5 rounded-lg shadow-interior w-5 bg-red-500 block"
+          ></span>
+          <svg
+            class="w-10 h-10 inline-block"
+            viewBox="0 0 24.00 24.00"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#000000"
+            stroke="#000000"
+            transform="matrix(1, 0, 0, 1, 0, 0)rotate(45)"
+          >
+            <path d="M12,12H22A10,10,0,1,1,12,2h0Z"></path>
+            ➞
+          </svg>
+          <span
+            class="h-5 rounded-lg shadow-interior w-5 bg-green-500 block"
+          ></span>
+          <svg
+            class="w-10 h-10 inline-block"
+            viewBox="0 0 24.00 24.00"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#000000"
+            stroke="#000000"
+            transform="matrix(1, 0, 0, 1, 0, 0)rotate(45)"
+          >
+            <path d="M12,12H22A10,10,0,1,1,12,2h0Z"></path>
+            ➞
+          </svg>
+          <span
+            class="h-5 rounded-lg shadow-interior w-5 bg-blue-500 block"
+          ></span>
+          <svg
+            class="w-10 h-10 inline-block"
+            viewBox="0 0 24.00 24.00"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#000000s"
+            stroke="none"
+            transform="matrix(1, 0, 0, 1, 0, 0)rotate(45)"
+          >
+            <path d="M12,12H22A10,10,0,1,1,12,2h0Z"></path>
+            ➞
+          </svg>
+          <span
+            class="h-5 rounded-lg shadow-interior w-5 bg-red-500 block"
+          ></span>
+        </p>
         <div class="flex flex-col bg-black bottom-btn">
           <div class="flex">
             <button class="red w-full h-20 btn bg-red-500" id="redButton">
@@ -209,11 +289,11 @@
         <p>Green :</p>
       </div>
       <div
-        class="flex flex-col bg-black rounded-lg inset-shadow py-2 font-thin w-14 justify-center items-center"
+        class="flex flex-col bg-black rounded-lg inset-shadow py-2 w-14 justify-center items-center"
       >
-        <span id="red" class="text-white px-4">33</span>
-        <span id="blue" class="text-white px-4">33</span>
-        <span id="green" class="text-white px-4">33</span>
+        <span id="red" class="text-white px-4 font-secondary">33</span>
+        <span id="blue" class="text-white px-4 font-secondary">33</span>
+        <span id="green" class="text-white px-4 font-secondary">33</span>
       </div>
     </div>
     <div
@@ -234,6 +314,7 @@
       <p class="text-sm font-light">Made by Akira Valade</p>
     </div>
     <div class="fixed z-50 inset-0 bg-black stripes-yellow" id="reveal"></div>
+    <canvas class="fixed z-50 inset-0 w-full h-full" id="canvas-click"></canvas>
     <script>
       // use a script tag or an external JS file
       document.addEventListener("DOMContentLoaded", (event) => {
@@ -243,6 +324,7 @@
     <script type="module" src="/draw.js"></script>
     <script type="module" src="/rockPaperCisors.js"></script>
     <script type="module" src="/anim.js"></script>
+    <script type="module" src="/click.js"></script>
     <!-- <script type="module" src="/index.js"></script> -->
   </body>
 </html>
