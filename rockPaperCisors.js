@@ -213,25 +213,22 @@ export function pause() {
   }
 }
 let lastFrameTime = 0;
-
+const fpsInterval = 1000 / 48;
 function animate(timestamp) {
-  ctx.beginPath();
-  ctx.rect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-  ctx.fill();
-
-  if (timestamp - lastFrameTime < 1000 / 60) {
-    if (!paused) {
-      requestAnimationFrame(animate);
-    }
-    return;
+  if (!timestamp) {
+    requestAnimationFrame(animate);
   }
-  lastFrameTime = timestamp;
-
-  drawGrid();
-  updateTriangles();
-  drawTriangles();
-
+  const deltaTime = timestamp - lastFrameTime;
+  if (deltaTime > fpsInterval) {
+    lastFrameTime = timestamp;
+    ctx.beginPath();
+    ctx.rect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+    ctx.fill();
+    drawGrid();
+    updateTriangles();
+    drawTriangles();
+  }
   if (!paused) {
     requestAnimationFrame(animate);
   }

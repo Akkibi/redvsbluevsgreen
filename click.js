@@ -31,7 +31,7 @@ const updateSparkle = (sparkle, index) => {
     sparkle.opacity < 0
   ) {
     sparkles.splice(index, 1);
-    console.log(sparkles);
+    // console.log(sparkles);
   }
 };
 
